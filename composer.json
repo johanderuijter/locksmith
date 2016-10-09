@@ -1,0 +1,39 @@
+{
+    "name": "jdr/locksmith",
+    "description": "PEM Key manager",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Johan de Ruijter",
+            "email": "dev@johanderuijter.nl"
+        }
+    ],
+    "require": {
+        "php": "~7.0"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "~3.1",
+        "psr/log": "~1.0",
+        "ext-openssl": "*"
+    },
+    "suggests": {
+        "ext-openssl": "To use RSA keys the openssl extension is required"
+    },
+    "autoload": {
+        "psr-4": {
+            "JDR\\Locksmith\\": "src"
+        }
+    },
+    "scripts": {
+        "test": "bin/phpspec run"
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
