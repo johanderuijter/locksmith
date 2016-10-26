@@ -18,7 +18,7 @@
         "psr/log": "~1.0",
         "ext-openssl": "*"
     },
-    "suggests": {
+    "suggest": {
         "ext-openssl": "To use RSA keys the openssl extension is required"
     },
     "autoload": {
