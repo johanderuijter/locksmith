@@ -2,10 +2,10 @@
 
 namespace JDR\Locksmith\OpenSSL;
 
+use InvalidArgumentException;
 use JDR\Locksmith\PrivateKey;
 use JDR\Locksmith\PublicKey;
 use JDR\Locksmith\RSA;
-use InvalidArgumentException;
 
 class RSAPrivateKey implements PrivateKey, RSA
 {
@@ -82,14 +82,6 @@ class RSAPrivateKey implements PrivateKey, RSA
      */
     private function isValidKey(string $content, string $passphrase) : bool
     {
-        if (!preg_match('/^-----BEGIN RSA PRIVATE KEY-----/', $content)) {
-            return false;
-        }
-
-        if (!preg_match('/-----END RSA PRIVATE KEY-----$/', $content)) {
-            return false;
-        }
-
         return openssl_pkey_get_private($content, $passphrase) !== false;
     }
 }

@@ -48,7 +48,7 @@ class RSAPrivateKeySpec extends ObjectBehavior
     function it_throws_an_exception_when_key_is_invalid()
     {
         $this->beConstructedWith('-----BEGIN RSA PRIVATE KEY----- key -----END RSA PRIVATE KEY-----', 'foobar');
-        // $this->shouldThrow('\InvalidArgumentException')->duringInstantiation();
+        $this->shouldThrow('\InvalidArgumentException')->duringInstantiation();
     }
 
     function it_throws_an_exception_when_passphrase_is_invalid()

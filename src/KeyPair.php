@@ -86,7 +86,7 @@ class KeyPair
         }
 
         // If the public key extracted from the private key matches the supplied public key, the pair must be valid.
-        if ($private->getPublicKey() === $public) {
+        if ($private->getPublicKey() == $public) {
             return true;
         }
 

@@ -2,6 +2,7 @@
 
 namespace JDR\Locksmith\OpenSSL;
 
+use InvalidArgumentException;
 use JDR\Locksmith\PublicKey;
 use JDR\Locksmith\RSA;
 
@@ -35,12 +36,12 @@ class RSAPublicKey implements PublicKey, RSA
      *
      * @param string $content
      *
-     * @throws \InvalidArgumentException When the key is invalid.
+     * @throws InvalidArgumentException When the key is invalid.
      */
     private function validateKey(string $content)
     {
         if (!$this->isValidKey($content)) {
-            throw new \InvalidArgumentException('Public key could not be created: Key is invalid.');
+            throw new InvalidArgumentException('Public key could not be created: Key is invalid.');
         }
     }
 
@@ -53,14 +54,6 @@ class RSAPublicKey implements PublicKey, RSA
      */
     private function isValidKey(string $content) : bool
     {
-        if (!preg_match('/^-----BEGIN PUBLIC KEY-----/', $content)) {
-            return false;
-        }
-
-        if (!preg_match('/-----END PUBLIC KEY-----$/', $content)) {
-            return false;
-        }
-
         return openssl_pkey_get_public($content) !== false;
     }
 }
