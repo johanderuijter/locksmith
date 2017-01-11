@@ -2,9 +2,9 @@
 
 namespace spec\JDR\Locksmith\OpenSSL;
 
-use JDR\Locksmith\KeyGenerator;
 use JDR\Locksmith\KeyPair;
 use JDR\Locksmith\OpenSSL\RSAKeyGenerator;
+use JDR\Locksmith\RSAKeyGenerator as KeyGenerator;
 use PhpSpec\ObjectBehavior;
 
 class RSAKeyGeneratorSpec extends ObjectBehavior

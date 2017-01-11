@@ -2,10 +2,10 @@
 
 namespace JDR\Locksmith;
 
-use RuntimeException;
 use JDR\Locksmith\KeyPair;
+use RuntimeException;
 
-interface KeyGenerator
+interface RSAKeyGenerator
 {
     /**
      * Generate a KeyPair.
@@ -17,5 +17,5 @@ interface KeyGenerator
      *
      * @throws RuntimeException When the key could not be generated.
      */
-    public function generate(int $size, string $passphrase = null) : KeyPair;
+    public function generate(int $size, string $passphrase = null): KeyPair;
 }

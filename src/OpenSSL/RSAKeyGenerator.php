@@ -3,7 +3,7 @@
 namespace JDR\Locksmith\OpenSSL;
 
 use RuntimeException;
-use JDR\Locksmith\KeyGenerator;
+use JDR\Locksmith\RSAKeyGenerator as KeyGenerator;
 use JDR\Locksmith\KeyPair;
 
 class RSAKeyGenerator implements KeyGenerator
