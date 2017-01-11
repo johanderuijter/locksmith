@@ -29,7 +29,7 @@ class RSAPrivateKey implements PrivateKey, RSA
      *
      * @return string
      */
-    public function getContent() : string
+    public function getContent(): string
     {
         return $this->content;
     }
@@ -39,7 +39,7 @@ class RSAPrivateKey implements PrivateKey, RSA
      *
      * @return string
      */
-    public function getPassphrase() : string
+    public function getPassphrase(): string
     {
         return $this->passphrase;
     }
@@ -49,7 +49,7 @@ class RSAPrivateKey implements PrivateKey, RSA
      *
      * @return PublicKey
      */
-    public function getPublicKey() : PublicKey
+    public function getPublicKey(): PublicKey
     {
         $resource = openssl_pkey_get_private($this->content, $this->passphrase);
         $details = openssl_pkey_get_details($resource);
@@ -80,7 +80,7 @@ class RSAPrivateKey implements PrivateKey, RSA
      *
      * @return bool
      */
-    private function isValidKey(string $content, string $passphrase) : bool
+    private function isValidKey(string $content, string $passphrase): bool
     {
         return openssl_pkey_get_private($content, $passphrase) !== false;
     }

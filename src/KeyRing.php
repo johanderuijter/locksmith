@@ -74,7 +74,7 @@ class KeyRing
         $this->publicKeys[$identifier] = $publicKey;
     }
 
-    public function getKeyPair(string $identifier) : KeyPair
+    public function getKeyPair(string $identifier): KeyPair
     {
         if (!array_key_exists($identifier, $this->keyPairs)) {
             throw new InvalidArgumentException(sprintf(
@@ -87,7 +87,7 @@ class KeyRing
         return $this->keyPairs[$identifier];
     }
 
-    public function getPrivateKey(string $identifier) : PrivateKey
+    public function getPrivateKey(string $identifier): PrivateKey
     {
         if (!array_key_exists($identifier, $this->keyPairs)) {
             throw new InvalidArgumentException(sprintf(
@@ -100,7 +100,7 @@ class KeyRing
         return $this->keyPairs[$identifier]->getPrivateKey();
     }
 
-    public function getPublicKey(string $identifier) : PublicKey
+    public function getPublicKey(string $identifier): PublicKey
     {
         if (!array_key_exists($identifier, $this->publicKeys) && !array_key_exists($identifier, $this->keyPairs)) {
             throw new InvalidArgumentException(sprintf(

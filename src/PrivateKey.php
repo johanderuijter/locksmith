@@ -9,19 +9,19 @@ interface PrivateKey
      *
      * @return string
      */
-    public function getContent() : string;
+    public function getContent(): string;
 
     /**
      * Get passphrase.
      *
      * @return string
      */
-    public function getPassphrase() : string;
+    public function getPassphrase(): string;
 
     /**
      * Get public key.
      *
      * @return PublicKey
      */
-    public function getPublicKey() : PublicKey;
+    public function getPublicKey(): PublicKey;
 }

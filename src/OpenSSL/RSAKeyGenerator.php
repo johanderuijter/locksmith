@@ -2,9 +2,9 @@
 
 namespace JDR\Locksmith\OpenSSL;
 
-use RuntimeException;
-use JDR\Locksmith\RSAKeyGenerator as KeyGenerator;
 use JDR\Locksmith\KeyPair;
+use JDR\Locksmith\RSAKeyGenerator as KeyGenerator;
+use RuntimeException;
 
 class RSAKeyGenerator implements KeyGenerator
 {
@@ -18,7 +18,7 @@ class RSAKeyGenerator implements KeyGenerator
      *
      * @throws RuntimeException When the key could not be generated.
      */
-    public function generate(int $size, string $passphrase = null) : KeyPair
+    public function generate(int $size, string $passphrase = null): KeyPair
     {
         // When the passphrase is an empty string, the key won't work. Use null instead.
         if ($passphrase === '') {

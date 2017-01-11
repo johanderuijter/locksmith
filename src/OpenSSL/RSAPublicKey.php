@@ -26,7 +26,7 @@ class RSAPublicKey implements PublicKey, RSA
      *
      * @return string
      */
-    public function getContent() : string
+    public function getContent(): string
     {
         return $this->content;
     }
@@ -52,7 +52,7 @@ class RSAPublicKey implements PublicKey, RSA
      *
      * @return bool
      */
-    private function isValidKey(string $content) : bool
+    private function isValidKey(string $content): bool
     {
         return openssl_pkey_get_public($content) !== false;
     }
