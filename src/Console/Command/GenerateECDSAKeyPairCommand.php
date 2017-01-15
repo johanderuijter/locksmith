@@ -3,14 +3,13 @@
 namespace JDR\Locksmith\Console\Command;
 
 use JDR\Locksmith\PhpECC\ECDSAKeyGenerator;
-use RuntimeException;
+use Mdanter\Ecc\Curves\NistCurve;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Throwable;
-use Mdanter\Ecc\Curves\NistCurve;
 
 class GenerateECDSAKeyPairCommand extends Command
 {
