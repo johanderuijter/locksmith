@@ -2,7 +2,7 @@
 
 namespace JDR\Locksmith\Console\Command;
 
-use JDR\Locksmith\OpenSSL\RSAKeyGenerator;
+use JDR\Locksmith\PhpECC\ECDSAKeyGenerator;
 use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -10,21 +10,29 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Throwable;
+use Mdanter\Ecc\Curves\NistCurve;
 
-class GenerateRSAKeyPairCommand extends Command
+class GenerateECDSAKeyPairCommand extends Command
 {
+    const CURVES = [
+        NistCurve::NAME_P192,
+        NistCurve::NAME_P224,
+        NistCurve::NAME_P256,
+        NistCurve::NAME_P384,
+        NistCurve::NAME_P521,
+    ];
+
     /**
      * {@inheritdoc}
      */
     protected function configure()
     {
         $this
-            ->setName('generate:keys:rsa')
-            ->setDescription('Generate a new key pair (RSA).')
+            ->setName('generate:keys:ecdsa')
+            ->setDescription('Generate a new key pair (ECDSA).')
 
             ->setDefinition([
-                new InputOption('bits', 'b', InputOption::VALUE_REQUIRED, 'Amount of bits used to generate the private key. Supported sizes are: 2048, 4096', 4096),
-                new InputOption('passphrase', 'p', InputOption::VALUE_REQUIRED, 'Passphrase used to generate the private key.'),
+                new InputOption('curve', 'c', InputOption::VALUE_REQUIRED, 'Curve used to generate the private key. Supported curves are: '.implode(', ', self::CURVES), NistCurve::NAME_P256),
             ])
 
             ->setHelp("Generate a new key pair")
@@ -36,12 +44,12 @@ class GenerateRSAKeyPairCommand extends Command
      */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
-        if (!in_array($input->getOption('bits'), [2048, 4096])) {
+        if (!in_array($input->getOption('curve'), self::CURVES)) {
             if ($input->getOption('no-interaction')) {
                 $io = new SymfonyStyle($input, $output);
-                $io->error('Invalid key size. Size MUST be either 2048 or 4096.');
+                $io->error('Invalid curve. Using default curve ("'.NistCurve::NAME_P256.'") instead.');
             }
-            $input->setOption('bits', 4096);
+            $input->setOption('curve', NistCurve::NAME_P256);
         }
     }
 
@@ -52,25 +60,14 @@ class GenerateRSAKeyPairCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $io->title('Generate a new RSA key pair');
+        $io->title('Generate a new ECDSA key pair');
 
         $size = $io->choice(
-            'Please specify how many bits should be used to generate the private key',
-            [2048, 4096],
-            $input->getOption('bits')
+            'Please specify which curve should be used to generate the private key',
+            self::CURVES,
+            $input->getOption('curve')
         );
-        $input->setOption('bits', $size);
-
-        if ($io->confirm('Do you want to use a passphrase?', true)) {
-            $passphrase = $io->askHidden('Please specify the passphrase to use', function ($answer) {
-                if (empty($answer)) {
-                    throw new RuntimeException('Passphrase cannot be empty.');
-                }
-
-                return $answer;
-            });
-            $input->setOption('passphrase', $passphrase);
-        }
+        $input->setOption('curve', $size);
     }
 
     /**
@@ -86,8 +83,8 @@ class GenerateRSAKeyPairCommand extends Command
         }
 
         try {
-            $generator = new RSAKeyGenerator();
-            $keyPair = $generator->generate((int) $input->getOption('bits'), $input->getOption('passphrase'));
+            $generator = new ECDSAKeyGenerator();
+            $keyPair = $generator->generate($input->getOption('curve'));
             file_put_contents(getcwd().'/private_key.pem', $keyPair->getPrivateKey()->getContent());
             file_put_contents(getcwd().'/public_key.pem', $keyPair->getPublicKey()->getContent());
         } catch (Throwable $exception) {
@@ -99,14 +96,8 @@ class GenerateRSAKeyPairCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $size = $input->getOption('bits');
+        $curve = $input->getOption('curve');
 
-        if ($input->getOption('passphrase')) {
-            $io->text(sprintf('You are about to generate a %d bit key with a passphrase.', $size));
-
-            return;
-        }
-
-        $io->text(sprintf('You are about to generate a %d bit key without a passphrase.', $size));
+        $io->text(sprintf('You are about to generate a key on the %s curve.', $curve));
     }
 }

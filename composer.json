@@ -16,10 +16,12 @@
     "require-dev": {
         "phpspec/phpspec": "~3.1",
         "psr/log": "~1.0",
-        "ext-openssl": "*"
+        "ext-openssl": "*",
+        "mdanter/ecc": "~0.4"
     },
     "suggest": {
-        "ext-openssl": "To use RSA keys the openssl extension is required"
+        "ext-openssl": "To use RSA keys the openssl extension is required",
+        "mdanter/ecc": "To use ECDSA keys the mdanter/ecc library is required"
     },
     "autoload": {
         "psr-4": {
